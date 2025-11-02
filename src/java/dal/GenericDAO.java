@@ -51,7 +51,7 @@ public abstract class GenericDAO<T> extends DBContext {
             // Khai báo danh sách kết quả
 //            Generic DAO 2
  // Duyệt result set
- while (resultSet.next()) {
+            while (resultSet.next()) {
                 // Gọi hàm mapRow để map đối tượng
                 T obj = mapRow(resultSet, clazz);
                 // Thêm vào danh sách kết quả
@@ -102,9 +102,9 @@ public abstract class GenericDAO<T> extends DBContext {
             connection = getConnection();
             //List parameter
             List<Object> parameters = new ArrayList<>();
-//            Generic DAO 3
- // Thêm điều kiện
- if (parameterHashmap != null && !parameterHashmap.isEmpty()) {
+            //Generic DAO 3
+            // Thêm điều kiện
+            if (parameterHashmap != null && !parameterHashmap.isEmpty()) {
                 // code thêm điều kiện
                 for (Map.Entry<String, Object> entry : parameterHashmap.entrySet()) {
                     Object conditionValue = entry.getValue();
@@ -152,7 +152,7 @@ public abstract class GenericDAO<T> extends DBContext {
             } catch (SQLException e) {
                 System.err.println("4USER: Bắn Exception ở hàm query: " + e.getMessage());
             }
-//            Generic DAO 4
+            //Generic DAO 4
  }
  return result;
     }
@@ -204,7 +204,7 @@ public abstract class GenericDAO<T> extends DBContext {
             return rs.getFloat(fieldName);
         } else {
             return rs.getObject(fieldName);
-//            Generic DAO  5
+        //Generic DAO  5
  }
  }
  /**
@@ -312,8 +312,8 @@ public abstract class GenericDAO<T> extends DBContext {
      */
     protected int insertGenericDAO(T object) {
         Class<?> clazz = object.getClass();
-//        Generic DAO 7
- Field[] fields = clazz.getDeclaredFields();
+        //Generic DAO 7
+        Field[] fields = clazz.getDeclaredFields();
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("INSERT INTO ").append(clazz.getSimpleName()).append(" (");
         List<Object> parameters = new ArrayList<>();
@@ -340,7 +340,7 @@ public abstract class GenericDAO<T> extends DBContext {
         for (int i = 0; i < parameters.size(); i++) {
             sqlBuilder.append("?, ");
         }
-        // Xóa dấu phẩy cuối cùng
+        //Xóa dấu phẩy cuối cùng
         if (sqlBuilder.charAt(sqlBuilder.length() - 2) == ',') {
             sqlBuilder.delete(sqlBuilder.length() - 2, sqlBuilder.length());
         }
@@ -348,10 +348,10 @@ public abstract class GenericDAO<T> extends DBContext {
         connection = getConnection();
         int id = 0;
         try {
-            // Bắt đầu giao dịch và chuẩn bị câu truy vấn
+            //Bắt đầu giao dịch và chuẩn bị câu truy vấn
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(sqlBuilder.toString(), Statement.RETURN_GENERATED_KEYS);
- int index = 1;
+            int index = 1;
             for (Object value : parameters) {
                 statement.setObject(index, value);
                 index++;
@@ -359,7 +359,7 @@ public abstract class GenericDAO<T> extends DBContext {
             // Thực thi câu truy vấn
             statement.executeUpdate();
             // Lấy khóa chính (ID) được tạo tự động
-//            Generic DAO 8
+            //Generic DAO 8
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 id = resultSet.getInt(1);
@@ -413,7 +413,7 @@ public abstract class GenericDAO<T> extends DBContext {
                 index++;
             }
             // Thực thi câu truy vấn
-//            Generic DAO 9
+            //Generic DAO 9
             statement.executeUpdate();
             // Lấy khóa chính (ID) được tạo tự động
             resultSet = statement.getGeneratedKeys();
@@ -468,9 +468,9 @@ public abstract class GenericDAO<T> extends DBContext {
             List<Object> parameters = new ArrayList<>();
             // Chuẩn bị câu lệnh
             statement = connection.prepareStatement(sqlBuilder.toString());
-//            Generic DAO 10
- // Gán giá trị cho các tham số của câu truy vấn
- int index = 1;
+            //Generic DAO 10
+            // Gán giá trị cho các tham số của câu truy vấn
+            int index = 1;
             for (Object value : parameters) {
                 statement.setObject(index, value);
                 index++;
@@ -497,9 +497,9 @@ public abstract class GenericDAO<T> extends DBContext {
                 }
             } catch (SQLException e) {
                 System.err.println("4USER: Bắn Exception ở hàm findTotalRecord: " + e.getMessage());
- }
- }
- return total;
+            }
+        }
+        return total;
     }
 
     /**
@@ -558,13 +558,13 @@ public abstract class GenericDAO<T> extends DBContext {
                 }
             } catch (SQLException e) {
                 System.err.println("4USER: Bắn Exception ở hàm findTotalRecord: " + e.getMessage());
- }
- }
- return total;
+            }
+        }
+        return total;
     }
 
     public abstract List<T> findAll();
 
     public abstract int insert(T t);
-//    Generic DAO 12
+    //Generic DAO 12
 }
